@@ -38,7 +38,7 @@ def build_raft_model(args, device):
     return model
 
 @torch.no_grad()
-def raft_flow_up(raft, map_t, map_t1, iters=20):
+def raft_flow(raft, map_t, map_t1, iters=20):
     """
     map_t, map_t1: [B,1,H,W] or [B,H,W] (0/1 binary or 0~1 prob)
     return: flow_up [B,2,H,W]  (dx, dy) in pixel units
