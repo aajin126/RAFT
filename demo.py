@@ -18,7 +18,7 @@ from core.utils.utils import InputPadder
 DEVICE = 'cuda'
 
 def load_image(imfile):
-    img = np.array(Image.open(imfile)).astype(np.uint8)
+    img = np.array(Image.open(imfile).convert('RGB')).astype(np.uint8) 
     img = torch.from_numpy(img).permute(2, 0, 1).float()
     return img[None].to(DEVICE)
 
@@ -27,7 +27,9 @@ def viz(img, flo):
     img = img[0].permute(1,2,0).cpu().numpy()
     flo = flo[0].permute(1,2,0).cpu().numpy()
     
-    # map flow to rgb image
+    # map flow to rgb image\
+
+    flo = np.nan_to_num(flo, nan=0.0, posinf=0.0, neginf=0.0)
     flo = flow_viz.flow_to_image(flo)
     img_flo = np.concatenate([img, flo], axis=0)
 
